@@ -98,7 +98,7 @@ class Collection {
      */
     async find(queries = {}) {
         const q = query(this.collection, 
-            ...Object.entries(queries).map(([key, value]) => where(key, "===", value))
+            ...Object.entries(queries).map(([key, value]) => where(key, "==", value))
         )
 
         const snapshot = await getDocs(q)
