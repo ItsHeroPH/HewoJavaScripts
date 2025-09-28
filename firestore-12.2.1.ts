@@ -1,4 +1,11 @@
-import { 
+import {
+    FireStore,
+    CollectionReference,
+    DocumentData,
+    DocumentReference,
+    DocumentSnapshot,
+    QueryDocumentSnapshot,
+    QuerySnapshot,
     collection, 
     addDoc, 
     doc,
@@ -8,7 +15,15 @@ import {
     where, 
     updateDoc, 
     deleteDoc 
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+export type FieldRule<T = any> = {
+    type: { new (...args: any[]): T},
+    required?: boolean,
+    default?: T | (() => T);
+}
+
+export type Schema = Record<string, FieldRule>;
 
 /**
  * The Collection class is a wrapper around Firestore’s API that provides
@@ -17,15 +32,19 @@ import {
  * updating, and deleting documents, while also enforcing schema validation 
  * and default values.
  */
-class Collection {
-    constructor(db, name, defaults) {
+export class Collection<T extends DocumentData = DocumentData> {
+    private db: FireStore;
+    public collection: CollectionReference;
+    private defaults: Schema;
+
+    constructor(db: FireStore, name: string, defaults: Schema) {
         this.db = db;
         this.collection = collection(db, name)
         this.defaults = defaults;
     }
 
-    _validateAndApplyDefaults(data) {
-        const validated = {};
+    private _validateAndApplyDefaults(data: Partial<T>): T {
+        const validated: any = {};
 
         for (const [field, rules] of Object.entries(this.defaults)) {
             let value = data[field];
@@ -57,7 +76,7 @@ class Collection {
      * Creates a document to the collection and returns the created document.
      * @param {*} data The data that the created document will have.
      */
-    async addOne(data = {}) {
+    public async addOne(data: Partial<T> = {}): Promise<DocumentReference<T>> {
         const validated = this._validateAndApplyDefaults(data);
         const docData = await addDoc(this.collection, validated);
         return docData;
@@ -67,7 +86,7 @@ class Collection {
      * Find documents that matched in the specified queries and deletes all.
      * @param {*} queries Parameters that will be used to find the document.
      */
-    async deleteAll(queries = {}) {
+    async deleteAll(queries: Partial<T> = {}): Promise<void> {
         const docDatas = await this.find(queries);
         if(docDatas != null) {
             for(const docData of docDatas) {
@@ -83,7 +102,7 @@ class Collection {
      * will delete the first document it will find.
      * @param {*} queries Parameters that will be used to find the document.
      */
-    async deleteOne(queries = {}) {
+    async deleteOne(queries: Partial<T> = {}): Promise<void> {
         const docData = await this.findOne(queries);
         if(docData != null) {
             const docRef = doc(this.collection, docData.id)
@@ -96,12 +115,12 @@ class Collection {
      * array of documents that matches to the specified queries.
      * @param {*} queries Parameters that will be used to find the document.
      */
-    async find(queries = {}) {
+    async find(queries: Partial<T> = {}): Promise<QueryDocumentSnapshot<T>[] | null> {
         const q = query(this.collection, 
-            ...Object.entries(queries).map(([key, value]) => where(key, "===", value))
+            ...Object.entries(queries).map(([key, value]) => where(key, "==", value))
         )
 
-        const snapshot = await getDocs(q)
+        const snapshot: QuerySnapshot<T> = await getDocs(q)
         if(snapshot.empty) return null;
 
         return snapshot.docs;
@@ -113,7 +132,7 @@ class Collection {
      * that matched to the specified queries, it will return the first document.
      * @param {*} queries Parameters that will be used to find the document.
      */
-    async findOne(queries = {}) {
+    async findOne(queries: Partial<T> = {}): Promise<QueryDocumentSnapshot<T>> {
         const docs = await this.find(queries);
         if(docs === null) return null;
         return docs[0]
@@ -122,8 +141,8 @@ class Collection {
     /**
      * Returns all the existing document from the collection.
      */
-    async get() {
-        const docs = await getDocs(this.collection);
+    async get(): Promise<QueryDocumentSnapshot<T>[] | null> {
+        const docs: QuerySnapshot<T> = await getDocs(this.collection);
         if(docs.empty) return null;
         return docs.docs
     }
@@ -133,9 +152,10 @@ class Collection {
      * If a multiple document matches the specified queries, it will update the first doccument.
      * @param {*} queries Parameters that will be used to find the document.
      */
-    async updateOne(queries = {}, update) {
+    async updateOne(queries: Partial<T> = {}, update: Partial<T> = {}): Promise<DocumentSnapshot<T> | null> {
         const docData = await this.findOne(queries);
         if(!docData) return null;
+
         const updatedData = {...docData.data(), ...update}
         const validated = this._validateAndApplyDefaults(updatedData);
         
@@ -146,5 +166,3 @@ class Collection {
     }
 
 }
-
-export { Collection }
