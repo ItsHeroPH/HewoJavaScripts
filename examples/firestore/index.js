@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import { initializeDatabase, Collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJSscripts@v1.0.1/firestore-12.2.1.min.js";
+import { Collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v1.0.0/firestore-12.2.1.min.js";
 
 const firebaseConfig = {
     apiKey: "",
