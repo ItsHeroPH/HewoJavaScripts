@@ -8,7 +8,7 @@ class Collection {
     }
 
     async createOne(data = {}) {
-        const validated = await this.schema.validateAndApplyDefaults(data, this);
+        const validated = await this.schema.validateAndApplyDefaults(null, data, this);
         const docRef = await addDoc(this.collection, validated);
         const docData = await getDoc(docRef);
         return new Document(this, docData.id, docData.data());
@@ -22,7 +22,7 @@ class Collection {
         const snapshot = await getDocs(q)
         if(snapshot.empty) return null;
 
-        return snapshot.docs.map((docData) => new Document(this ,docData.id, docData.data()));
+        return snapshot.docs.map((docData) => new Document(this, docData.id, docData.data()));
     }
 
     async findOne(queries = {}) {
