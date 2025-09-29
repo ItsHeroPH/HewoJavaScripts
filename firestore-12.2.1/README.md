@@ -65,7 +65,7 @@ await user.save();
 
 ---
 
-With the version <b>v2.0.3</b>, introducing the the <b>unique</b> option in the field rules in schema
+With the version <b>v2.0.3</b>, introducing the <b>unique</b> option in the field rules in schema
 ```js
 // This ensure that the all email on your users are unique.
 const yourSchema = new Schema({
