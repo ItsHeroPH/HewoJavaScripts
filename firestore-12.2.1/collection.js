@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import Document from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.0/firestore-12.2.1/document.js";
+import Document from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.1/firestore-12.2.1/document.min.js";
 
 class Collection {
     constructor(db, name, schema) {
@@ -43,7 +43,7 @@ class Collection {
     async findAndDeleteOne(queries = {}) {
         const docData = await this.findOne(queries);
         if(!docData) return;
-        docData.delete()
+        await docData.delete()
     }
 
     async findAndUpdate(queries = {}, update = {}) {
@@ -54,7 +54,7 @@ class Collection {
             for(const [key, value] of Object.entries(update)) {
                 docData[key] = value;
             }
-            docData.save()
+            await docData.save()
         }
     }
 
@@ -65,7 +65,7 @@ class Collection {
         for(const [key, value] of Object.entries(update)) {
             docData[key] = value;
         }
-        docData.save()
+        await docData.save()
     }
 
 }

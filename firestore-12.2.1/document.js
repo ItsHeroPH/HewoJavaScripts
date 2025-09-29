@@ -22,10 +22,9 @@ export default class Document {
     }
 
     async delete() {
-        const { collectionRef, uid, deleted, ...data } = this;
-        if(deleted) return;
+        if(this.deleted) return;
 
-        const docRef = await doc(collectionRef.collection, uid);
+        const docRef = await doc(this.collectionRef.collection, this.uid);
         await deleteDoc(docRef)
         this.deleted = true;
     }
