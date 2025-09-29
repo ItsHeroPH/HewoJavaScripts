@@ -9,7 +9,7 @@ A lightweight Framework for Firestore that inspired by Mongoose.
 You can import directly from CDN:
 
 ``
-https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.1/firestore-12.2.1/firestore.min.js
+https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.2/firestore-12.2.1/firestore.min.js
 ``
 
 
