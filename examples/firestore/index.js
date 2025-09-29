@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import { Collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v1.0.2/firestore-12.2.1.min.ts";
+import { Schema, collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.0/firestore-12.2.1/firestore.min.js";
 
 const firebaseConfig = {
     apiKey: "",
@@ -15,19 +15,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
-const schema = {
+const schema = new Schema({
     id: { type: String, required: true },
     name: { type: String, required: true },
     section: { type: String, required: true },
-    subjects: { type: Array, required: false, default: [] },
-    grades: { type: Array, required: false, default: [] }
-}
+})
 
-const students = new Collection(db, "students", schema);
+const students = collection(db, "students", schema);
 
-const grades = [
-    90, 92, 93
-]
-
-
-await students.updateOne({ id: "01234" }, { grades: grades })
+const student = students.createOne({ id: "123", name: "Hewo", section: "101" })
+student.section = "202"
+student.save()

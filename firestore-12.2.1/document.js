@@ -1,0 +1,32 @@
+import { doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
+
+export default class Document {
+    collectionRef;
+    uid;
+    deleted;
+
+    constructor(collectionRef, id, data) {
+        this.collectionRef = collectionRef;
+        this.uid = id;
+        this.deleted = false;
+        Object.assign(this, data);
+    }
+
+    async save() {
+        const { collectionRef, uid, deleted, ...data } = this;
+        if(deleted) return;
+
+        const validated = collectionRef.schema.validateAndApplyDefaults(data);
+        const docRef = await doc(collectionRef.collection, uid);
+        await updateDoc(docRef, validated)
+    }
+
+    async delete() {
+        const { collectionRef, uid, deleted, ...data } = this;
+        if(deleted) return;
+
+        const docRef = await doc(collectionRef.collection, uid);
+        await deleteDoc(docRef)
+        this.deleted = true;
+    }
+}
