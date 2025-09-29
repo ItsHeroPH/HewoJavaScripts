@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import { Schema, collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.0/firestore-12.2.1/firestore.min.js";
+import { Schema, collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/firestore.min.js";
 
 const firebaseConfig = {
     apiKey: "",
@@ -16,7 +16,7 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
 const schema = new Schema({
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     section: { type: String, required: true },
 })

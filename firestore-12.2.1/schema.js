@@ -3,7 +3,7 @@ export default class Schema {
         this.fields = fields;
     }
 
-    validateAndApplyDefaults(data = {}) {
+    async validateAndApplyDefaults(data = {}, collection) {
         const validated = {};
 
         for (const [field, rules] of Object.entries(this.fields)) {
@@ -24,6 +24,11 @@ export default class Schema {
                         `Field "${field}" should be of type ${expectedType}, got ${typeof value}`
                     );
                 }
+            }
+
+            if(value !== undefined && rules.unique) {
+                const doc = await collection.findOne({ [field]: value });
+                if(doc) throw new Error(`Field "${field}" must be unique. "${value}" is already exists.`)
             }
 
             if (value !== undefined) validated[field] = value;

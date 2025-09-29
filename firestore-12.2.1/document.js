@@ -16,7 +16,7 @@ export default class Document {
         const { collectionRef, uid, deleted, ...data } = this;
         if(deleted) return;
 
-        const validated = collectionRef.schema.validateAndApplyDefaults(data);
+        const validated = await collectionRef.schema.validateAndApplyDefaults(data, collectionRef);
         const docRef = await doc(collectionRef.collection, uid);
         await updateDoc(docRef, validated)
     }

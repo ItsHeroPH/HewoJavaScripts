@@ -9,7 +9,7 @@ A lightweight Framework for Firestore that inspired by Mongoose.
 You can import directly from CDN:
 
 ``
-https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.2/firestore-12.2.1/firestore.min.js
+https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/firestore.min.js
 ``
 
 
@@ -18,7 +18,7 @@ https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.2/firestore-12.2.1/fi
 ```js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import { Schema, collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.0/firestore-12.2.1/firestore.min.js";
+import { Schema, collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/firestore.min.js";
 
 const firebaseConfig = {
     apiKey: "",
@@ -61,4 +61,16 @@ await users.findAndUpdateOne({ email: "example@gmail.com" }, { name: "James" });
 // The new way of updating the document
 user.name = "James";
 await user.save();
+```
+
+---
+
+With the version <b>v2.0.3</b>, introducing the the <b>unique</b> option in the field rules in schema
+```js
+// This ensure that the all email on your users are unique.
+const yourSchema = new Schema({
+    email: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+})
 ```
