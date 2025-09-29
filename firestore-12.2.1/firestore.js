@@ -1,4 +1,4 @@
-import collection from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/collection.min.js"
-import Schema from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/schema.min.js"
+import collection from "./collection.js"
+import Schema from "./schema.js"
 
 export { collection, Schema }

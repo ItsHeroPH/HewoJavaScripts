@@ -9,7 +9,7 @@ A lightweight Framework for Firestore that inspired by Mongoose.
 You can import directly from CDN:
 
 ``
-https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/firestore.min.js
+https://itsheroph.github.io/HewoJavaScripts/firestore-12.2.1/firestore.js
 ``
 
 
@@ -18,7 +18,7 @@ https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/fi
 ```js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import { Schema, collection } from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/firestore.min.js";
+import { Schema, collection } from "https://itsheroph.github.io/HewoJavaScripts/firestore-12.2.1/firestore.js";
 
 const firebaseConfig = {
     apiKey: "",
@@ -65,7 +65,7 @@ await user.save();
 
 ---
 
-With the version <b>v2.0.3</b>, introducing the <b>unique</b> option in the field rules in schema
+Introducing the <b>unique</b> option in the field rules in schema
 ```js
 // This ensure that the all email on your users are unique.
 const yourSchema = new Schema({

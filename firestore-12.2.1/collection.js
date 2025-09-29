@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-import Document from "https://cdn.jsdelivr.net/gh/ItsHeroPH/HewoJavaScripts@v2.0.3/firestore-12.2.1/document.min.js";
+import Document from "./document.js";
 
 class Collection {
     constructor(db, name, schema) {
