@@ -28,7 +28,7 @@ export default class Schema {
 
             if(value !== undefined && rules.unique) {
                 const doc = await collection.findOne({ [field]: value });
-                if(doc && (docId && docId !== doc.uid)) throw new Error(`Field "${field}" must be unique. "${value}" is already exists.`)
+                if(doc && (docId !== doc.uid)) throw new Error(`Field "${field}" must be unique. "${value}" is already exists.`)
             }
 
             if (value !== undefined) validated[field] = value;
